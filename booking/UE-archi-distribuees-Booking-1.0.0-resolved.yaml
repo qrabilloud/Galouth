@@ -30,7 +30,7 @@ paths:
             text/html:
               schema:
                 type: string
-                example: <h1>Test</h1>
+                example: <h1 style='color:blue'>Welcome to the Booking service!</h1>
   /bookings:
     get:
       tags:

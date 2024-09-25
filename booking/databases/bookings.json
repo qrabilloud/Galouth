@@ -5,7 +5,16 @@
       "dates": [
         {
           "date": "20151201",
-          "movies": ["267eedb8-0f5d-42d5-8f43-72426b9fb3e6"]
+          "movies": [
+            "267eedb8-0f5d-42d5-8f43-72426b9fb3e6",
+            "xxx"
+          ]
+        },
+        {
+          "date": "20151202",
+          "movies": [
+            "xxx"
+          ]
         }
       ]
     },
@@ -14,11 +23,15 @@
       "dates": [
         {
           "date": "20151201",
-          "movies": ["267eedb8-0f5d-42d5-8f43-72426b9fb3e6"]
+          "movies": [
+            "267eedb8-0f5d-42d5-8f43-72426b9fb3e6"
+          ]
         },
         {
           "date": "20151202",
-          "movies": ["276c79ec-a26a-40a6-b3d3-fb242a5947b6"]
+          "movies": [
+            "276c79ec-a26a-40a6-b3d3-fb242a5947b6"
+          ]
         }
       ]
     },
@@ -27,11 +40,17 @@
       "dates": [
         {
           "date": "20151201",
-          "movies": ["7daf7208-be4d-4944-a3ae-c1c2f516f3e6","267eedb8-0f5d-42d5-8f43-72426b9fb3e6"]
+          "movies": [
+            "7daf7208-be4d-4944-a3ae-c1c2f516f3e6",
+            "267eedb8-0f5d-42d5-8f43-72426b9fb3e6"
+          ]
         },
         {
           "date": "20151205",
-          "movies": ["a8034f44-aee4-44cf-b32c-74cf452aaaae","276c79ec-a26a-40a6-b3d3-fb242a5947b6"]
+          "movies": [
+            "a8034f44-aee4-44cf-b32c-74cf452aaaae",
+            "276c79ec-a26a-40a6-b3d3-fb242a5947b6"
+          ]
         }
       ]
     }

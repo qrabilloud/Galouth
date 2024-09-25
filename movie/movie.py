@@ -83,8 +83,6 @@ def write(movies):
     with open('{}/databases/movies.json'.format("."), 'w') as f:
         json.dump({"movies" : movies}, f)
 
-@app.route("/movies/<movieid>", methods=['POST'])
-def add_movie(movieid):
 @app.route("/addmovie/<movieid>", methods=['POST'])
 def add_movie(movieid : str) -> None:
     req = request.get_json()

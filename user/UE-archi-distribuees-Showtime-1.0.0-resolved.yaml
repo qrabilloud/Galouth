@@ -1,0 +1,115 @@
+---
+openapi: 3.0.3
+info:
+  title: User API
+  description: This is the API of the User service
+  contact:
+    email: helene.coullon@imt-atlantique.fr
+  license:
+    name: GPL v3
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+  version: 1.0.0
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+paths:
+  /:
+    get:
+      tags:
+      - developers
+      summary: home page of the service
+      operationId: home
+      responses:
+        "200":
+          description: welcome message
+          content:
+            text/html:
+              schema:
+                type: string
+                example: <h1 style='color:blue'>Welcome to the Showtime service!</h1>
+  /users:
+    get:
+      tags:
+      - developers
+      summary: get the full JSON database
+      operationId: get_users
+      responses:
+        "200":
+          description: full JSON
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllUsers'
+  /users/{userid}:
+    get:
+      tags:
+      - developers
+      summary: get the user by id
+      operationId: get_user_byid
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: bad input parameter
+  /users/{username}:
+    get:
+      tags:
+      - developers
+      summary: get the user by name
+      operationId: get_user_byname
+      parameters:
+      - name: name
+        in: path
+        description: Name of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: bad input parameter
+components:
+  schemas:
+    AllUsers:
+      required:
+      - users
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    User:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: "bertrand_lentsch"
+        name:
+          type: string
+          example: "Bertrand Lentsch"

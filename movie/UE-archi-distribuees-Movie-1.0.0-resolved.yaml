@@ -34,6 +34,21 @@ paths:
               schema:
                 type: string
                 example: <h1 style='color:blue'>Welcome to the Movie service!</h1>
+  /help:
+    get:
+      tags:
+      - developers
+      summary: get some help about the entrypoints
+      description: |
+        This is rather obvious I guess
+      operationId: get_help
+      responses:
+        "200":
+          description: full JSON
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllMovies'
   /json:
     get:
       tags:
@@ -122,7 +137,7 @@ paths:
           description: item deleted
         "400":
           description: ID not found
-  /moviesbytitle:
+  /movies/{movietitle}:
     get:
       tags:
       - developers
@@ -148,7 +163,7 @@ paths:
                 $ref: '#/components/schemas/MovieItem'
         "400":
           description: bad input parameter
-  /moviesbyrating:
+  /movies/{movierating}:
     get:
       tags:
       - developers
@@ -174,7 +189,7 @@ paths:
                 $ref: '#/components/schemas/MovieItem'
         "400":
           description: bad input parameter
-  /moviesbydirector:
+  /movies/{moviedirector}:
     get:
       tags:
       - developers

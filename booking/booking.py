@@ -15,6 +15,42 @@ with open('{}/databases/bookings.json'.format("."), "r") as jsf:
 def home():
    return "<h1 style='color:blue'>Welcome to the Booking service!</h1>"
 
+@app.route("/bookings", methods=['GET'])
+def get_json():
+   return make_response(jsonify(bookings), 200)
+
+@app.route("/bookings/<userid>", methods=['GET'])
+def get_bookings_foor_user(userid):
+   for user in bookings:
+      if user['userid'] == userid:
+         return make_response(user, 200)
+   return make_response("User not found", 400)
+
+@app.route("/bookings/<userid>", methods=['POST'])
+def add_booking_byuser(userid):
+   req = request.get_json()
+
+   #TODO Add verification with schedule.
+
+   for booking in bookings:
+      if booking['userid'] == userid:
+         for date in booking['dates']:
+            if date['date'] == req['date']:
+               for movie in date['movies']:
+                  if movie == req['movie']:
+                     return make_response("Movie already booked on this day", 409)
+               date['movies'].append(req['movie'])
+               write(bookings)
+               return make_response(jsonify(booking), 200)
+         booking['dates'].append({  "date": req['date'],
+                                    "movies": [req['movie']]
+                                 })
+         write(bookings)
+         return make_response(jsonify(booking), 200)
+
+def write(bookings):
+    with open('{}/databases/bookings.json'.format("."), 'w') as f:
+        json.dump({"bookings" : bookings}, f)
 
 if __name__ == "__main__":
    print("Server running in port %s"%(PORT))

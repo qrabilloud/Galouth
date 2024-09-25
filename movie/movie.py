@@ -79,6 +79,13 @@ def get_movie_bydirector() -> str:
         res = make_response(jsonify(json), 200)    
     return res
 
+@app.route("/help", methods=['GET'])
+def get_help():
+    """Gives the entrypoints available."""
+    with open('{}/UE-archi-distribuees-Movie-1.0.0-resolved.yaml'.format("."), 'r') as documentation:
+        entrypoints = documentation.read()
+    return make_response(jsonify(entrypoints), 200)
+
 def write(movies):
     with open('{}/databases/movies.json'.format("."), 'w') as f:
         json.dump({"movies" : movies}, f)

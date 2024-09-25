@@ -23,6 +23,14 @@ def get_user_byid(userid : str) -> str:
             return make_response(jsonify(user), 200) 
    return make_response(jsonify({"error" : "No user with this id."}))
 
+@app.route("/users/<username>", methods=['GET'])
+def get_user_byname(username : str) -> str:
+   """Searches all the users in the database with a specific name."""
+   for user in users:
+         if str(user['name']) == str(username):
+            return make_response(jsonify(user), 200) 
+   return make_response(jsonify({"error" : "No user with this name."}))
+
 if __name__ == "__main__":
    print("Server running in port %s"%(PORT))
    app.run(host=HOST, port=PORT)

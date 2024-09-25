@@ -29,24 +29,25 @@ def get_bookings_foor_user(userid):
 @app.route("/bookings/<userid>", methods=['POST'])
 def add_booking_byuser(userid):
    req = request.get_json()
-
-   #TODO Add verification with schedule.
-
-   for booking in bookings:
-      if booking['userid'] == userid:
-         for date in booking['dates']:
-            if date['date'] == req['date']:
-               for movie in date['movies']:
-                  if movie == req['movie']:
-                     return make_response("Movie already booked on this day", 409)
-               date['movies'].append(req['movie'])
+   plannedMovies = requests.get("http://127.0.0.1:3202/showmovies/" + req['date']).json()['movies']
+   for pMovie in plannedMovies:
+      if pMovie == req['movie']:
+         for booking in bookings:
+            if booking['userid'] == userid:
+               for date in booking['dates']:
+                  if date['date'] == req['date']:
+                     for movie in date['movies']:
+                        if movie == req['movie']:
+                           return make_response("Movie already booked on this day", 409)
+                     date['movies'].append(req['movie'])
+                     write(bookings)
+                     return make_response(jsonify(booking), 200)
+               booking['dates'].append({  "date": req['date'],
+                                          "movies": [req['movie']]
+                                       })
                write(bookings)
                return make_response(jsonify(booking), 200)
-         booking['dates'].append({  "date": req['date'],
-                                    "movies": [req['movie']]
-                                 })
-         write(bookings)
-         return make_response(jsonify(booking), 200)
+   return make_response("Movie not planned on this date", 409)
 
 def write(bookings):
     with open('{}/databases/bookings.json'.format("."), 'w') as f:

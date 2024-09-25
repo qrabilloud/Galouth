@@ -179,6 +179,22 @@ paths:
           description: rate updated
         "400":
           description: movie ID not found
+  /template:
+    get:
+      tags:
+      - developers
+      summary: Send the HTML template 
+      description: |
+        Nothing to do
+      operationId: template
+      responses:
+        "200":
+          description: template message
+          content:
+            text/html:
+              schema:
+                type: string
+                example: This is my HTML template for Movie service
 components:
   schemas:
     AllMovies:

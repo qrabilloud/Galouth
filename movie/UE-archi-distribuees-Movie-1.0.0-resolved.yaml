@@ -137,7 +137,7 @@ paths:
           description: item deleted
         "400":
           description: ID not found
-  /moviesbytitle:
+  /movies/{movietitle}:
     get:
       tags:
       - developers
@@ -163,7 +163,7 @@ paths:
                 $ref: '#/components/schemas/MovieItem'
         "400":
           description: bad input parameter
-  /moviesbyrating:
+  /movies/{movierating}:
     get:
       tags:
       - developers
@@ -189,7 +189,7 @@ paths:
                 $ref: '#/components/schemas/MovieItem'
         "400":
           description: bad input parameter
-  /moviesbydirector:
+  /movies/{moviedirector}:
     get:
       tags:
       - developers

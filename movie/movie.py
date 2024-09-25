@@ -34,50 +34,30 @@ def get_movie_byid(movieid) -> any:
             return res
     return make_response(jsonify({"error" : "Movie ID not found"}), 400)
 
-@app.route("/moviesbytitle", methods=['GET'])
-def get_movie_bytitle() -> str:
+@app.route("/movies/<movietitle>", methods=['GET'])
+def get_movie_bytitle(movietitle) -> str:
     """Searches all the movies in the database with a specific title."""
-    json = ""
-    if request.args:
-        req = request.args
-        for movie in movies:
-            if str(movie["title"]) == str(req["title"]):
-                json = movie
-    if not json:
-        res = make_response(jsonify({"error" : "movie title not found"}), 400)
-    else:
-        res = make_response(jsonify(json), 200)
-    return res
+    for movie in movies:
+        if str(movie["title"]) == str(movietitle):
+            return make_response(jsonify(movie), 200)
+    return make_response(jsonify({"error" : "movie title not found"}), 400)
 
-@app.route("/moviesbyrating", methods=['GET'])
-def get_movie_byrating() -> str:
+
+@app.route("/movies/<movierating>", methods=['GET'])
+def get_movie_byrating(movierating) -> str:
     """Searches all the movies in the database with a specific rating."""
-    json = ""
-    if request.args:
-        req = request.args
-        for movie in movies:
-            if str(movie['rating']) == str(req['rating']):
-                json = movie
-    if not json:
-        res = make_response(jsonify({"error" : "No movie with this rating."}), 400)
-    else:
-        res = make_response(jsonify(json), 200)
-    return res
+    for movie in movies:
+        if str(movie['rating']) == str(movierating):
+            return make_response(jsonify(movie), 200)
+    return make_response(jsonify({"error" : "No movie with this rating."}), 400)
 
-@app.route("/moviesbydirector", methods=['GET'])
-def get_movie_bydirector() -> str:
+@app.route("/movies/<moviedirector>", methods=['GET'])
+def get_movie_bydirector(moviedirector) -> str:
     """Searches all the movies in the database with a specific director."""
-    json = ""
-    if request.args:
-        req = request.args
-        for movie in movies:
-            if str(movie['rating']) == str(req['rating']):
-                json = movie
-    if not json:
-        res = make_response(jsonify({"error" : "No movie with this director."}))
-    else:
-        res = make_response(jsonify(json), 200)    
-    return res
+    for movie in movies:
+        if str(movie['rating']) == str(moviedirector):
+            return make_response(jsonify(movie), 200)
+    return make_response(jsonify({"error" : "No movie with this director."}))
 
 @app.route("/help", methods=['GET'])
 def get_help():

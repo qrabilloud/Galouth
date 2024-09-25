@@ -80,7 +80,7 @@ def write(movies):
         json.dump({"movies" : movies}, f)
 
 @app.route("/addmovie/<movieid>", methods=['POST'])
-def add_movie(movieid):
+def add_movie(movieid : str) -> None:
     req = request.get_json()
     for movie in movies:
         if str(movie["id"]) == str(movieid):
@@ -90,7 +90,7 @@ def add_movie(movieid):
     res = make_response(jsonify({"message" : "movie added"}), 200)
 
 @app.route("/movies/<movieid>/<rate>", methods=['PUT'])
-def update_movie_rating(movieid, rate):
+def update_movie_rating(movieid : str, rate : float) -> any:
     for movie in movies:
         if str(movie["id"]) == str(movieid):
             movie["rating"] = rate
@@ -100,7 +100,7 @@ def update_movie_rating(movieid, rate):
     return res
 
 @app.route("/movies/<movieid>", methods=['DELETE'])
-def del_movie(movieid):
+def del_movie(movieid :str) -> any:
     for movie in movies:
         if str(movie["id"]) == str(movieid):
             movies.remove(movie)

@@ -26,7 +26,8 @@ def get_json():
     return res
 
 @app.route("/movies/<movieid>", methods=['GET'])
-def get_movie_byid(movieid):
+def get_movie_byid(movieid) -> any:
+    """Searches all the movies in the database with a specific id."""
     for movie in movies:
         if str(movie["id"]) == str(movieid):
             res = make_response(jsonify(movie), 200)
@@ -34,7 +35,8 @@ def get_movie_byid(movieid):
     return make_response(jsonify({"error" : "Movie ID not found"}), 400)
 
 @app.route("/moviesbytitle", methods=['GET'])
-def get_movie_bytitle():
+def get_movie_bytitle() -> str:
+    """Searches all the movies in the database with a specific title."""
     json = ""
     if request.args:
         req = request.args
@@ -42,9 +44,39 @@ def get_movie_bytitle():
             if str(movie["title"]) == str(req["title"]):
                 json = movie
     if not json:
-        res = make_response(jsonify({"error":"movie title not found"}),400)
+        res = make_response(jsonify({"error" : "movie title not found"}), 400)
     else:
-        res = make_response(jsonify(json),200)
+        res = make_response(jsonify(json), 200)
+    return res
+
+@app.route("/moviesbyrating", methods=['GET'])
+def get_movie_byrating() -> str:
+    """Searches all the movies in the database with a specific rating."""
+    json = ""
+    if request.args:
+        req = request.args
+        for movie in movies:
+            if str(movie['rating']) == str(req['rating']):
+                json = movie
+    if not json:
+        res = make_response(jsonify({"error" : "No movie with this rating."}), 400)
+    else:
+        res = make_response(jsonify(json), 200)
+    return res
+
+@app.route("/moviesbydirector", methods=['GET'])
+def get_movie_bydirector() -> str:
+    """Searches all the movies in the database with a specific director."""
+    json = ""
+    if request.args:
+        req = request.args
+        for movie in movies:
+            if str(movie['rating']) == str(req['rating']):
+                json = movie
+    if not json:
+        res = make_response(jsonify({"error" : "No movie with this director."}))
+    else:
+        res = make_response(jsonify(json), 200)    
     return res
 
 def write(movies):
@@ -53,6 +85,8 @@ def write(movies):
 
 @app.route("/movies/<movieid>", methods=['POST'])
 def add_movie(movieid):
+@app.route("/addmovie/<movieid>", methods=['POST'])
+def add_movie(movieid : str) -> None:
     req = request.get_json()
     for movie in movies:
         if str(movie["id"]) == str(movieid):
@@ -63,7 +97,7 @@ def add_movie(movieid):
     return res
 
 @app.route("/movies/<movieid>/<rate>", methods=['PUT'])
-def update_movie_rating(movieid, rate):
+def update_movie_rating(movieid : str, rate : float) -> any:
     for movie in movies:
         if str(movie["id"]) == str(movieid):
             movie["rating"] = rate
@@ -74,7 +108,7 @@ def update_movie_rating(movieid, rate):
     return res
 
 @app.route("/movies/<movieid>", methods=['DELETE'])
-def del_movie(movieid):
+def del_movie(movieid :str) -> any:
     for movie in movies:
         if str(movie["id"]) == str(movieid):
             movies.remove(movie)

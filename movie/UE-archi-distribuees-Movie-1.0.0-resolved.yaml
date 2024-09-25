@@ -148,6 +148,58 @@ paths:
                 $ref: '#/components/schemas/MovieItem'
         "400":
           description: bad input parameter
+  /moviesbyrating:
+    get:
+      tags:
+      - developers
+      summary: get the movie by its rating
+      description: |
+        By passing in the appropriate options, you can get Movie info
+      operationId: get_movie_byrating
+      parameters:
+      - name: rating
+        in: query
+        description: pass a rating
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      responses:
+        "200":
+          description: Movie item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieItem'
+        "400":
+          description: bad input parameter
+  /moviesbydirector:
+    get:
+      tags:
+      - developers
+      summary: get the movie by its director
+      description: |
+        By passing in the appropriate options, you can get Movie info
+      operationId: get_movie_bydirector
+      parameters:
+      - name: director
+        in: query
+        description: pass a director
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Movie item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieItem'
+        "400":
+          description: bad input parameter
   /movies/{movieid}/{rate}:
     put:
       tags:

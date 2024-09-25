@@ -1,3 +1,5 @@
-# UE-AD-A1-REST
+# Galouth
 
-test
+Tâches à faire
+- Points d'entrée pour les informations sur les films
+- Point d'entrée help pour avoir des informations

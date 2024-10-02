@@ -66,7 +66,7 @@ def get_movie_bytitle() -> str:
     """Searches all the movies in the database with a specific title."""
     title = request.get_data(as_text=True)
     for movie in movies:
-        if movie["title"] == title:
+        if movie["title"].lower() == title.lower():
             return make_response(jsonify(movie), 200)
     return make_response(jsonify({"error" : "movie title not found"}), 400)
 
@@ -86,7 +86,7 @@ def get_movie_byrating() -> str:
 def get_movie_bydirector() -> str:
     """Searches all the movies in the database with a specific director."""
     director = request.get_data(as_text=True)
-    movieDirector = [movie for movie in movies if movie['director'] == director]
+    movieDirector = [movie for movie in movies if movie['director'].lower() == director.lower()]
     if len(movieDirector) > 0:
         return make_response(jsonify(movieDirector), 200)
     return make_response(jsonify({"error" : "No movie with this director."}), 400)

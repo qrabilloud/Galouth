@@ -24,7 +24,7 @@ def get_bookings_for_user(userid):
    for user in bookings:
       if user['userid'] == userid:
          return make_response(user, 200)
-   return make_response("User not found", 400)
+   return make_response("No bookings for this user", 200)
 
 def getObjFromListAttr(list, attr, val):
    for l in list:

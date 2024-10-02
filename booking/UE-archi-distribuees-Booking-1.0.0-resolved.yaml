@@ -70,7 +70,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BookingsUser'
         "400":
-          description: bad input parameter
+          description: No bookings for this user
     post:
       tags:
       - admins

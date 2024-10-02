@@ -34,7 +34,7 @@ paths:
       tags:
       - developers
       summary: get the full JSON database
-      operationId: get_users
+      operationId: get_all_users
       responses:
         "200":
           description: full JSON
@@ -66,30 +66,27 @@ paths:
                 $ref: '#/components/schemas/User'
         "400":
           description: bad input parameter
-  /users/{username}:
+  /users/name:
     get:
       tags:
       - developers
-      summary: get the user by name
-      operationId: get_user_byname
-      parameters:
-      - name: name
-        in: path
-        description: Name of the user
+      summary: get the users having the name name
+      operationId: get_users_byname
+      requestBody:
+        description: The body, which is the username
         required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: nrabier
       responses:
         "200":
           description: A user
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        "400":
-          description: bad input parameter
+                $ref: '#/components/schemas/AllUsers'
 components:
   schemas:
     AllUsers:

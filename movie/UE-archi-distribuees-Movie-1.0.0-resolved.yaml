@@ -163,7 +163,7 @@ paths:
         By passing in the title of a movie, you can get the related Movie info
       operationId: get_movie_bytitle
       requestBody:
-        description: "The body, which is the title of the movie"
+        description: The body, which is the title of the movie
         required: true
         content:
           text/plain:
@@ -188,7 +188,7 @@ paths:
         By passing in a rate, you can get all the Movies info having this rate
       operationId: get_movie_byrating
       requestBody:
-        description: "The body, which is the rate"
+        description: The body, which is the rate
         required: true
         content:
           text/plain:
@@ -213,7 +213,7 @@ paths:
         By passing in a director name, you can get all the Movies info directed by him
       operationId: get_movie_bydirector
       requestBody:
-        description: "The body, which is the director"
+        description: The body, which is the director
         required: true
         content:
           text/plain:

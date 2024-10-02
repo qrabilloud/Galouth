@@ -20,7 +20,7 @@ def get_json():
    return make_response(jsonify(bookings), 200)
 
 @app.route("/bookings/<userid>", methods=['GET'])
-def get_bookings_foor_user(userid):
+def get_bookings_for_user(userid):
    for user in bookings:
       if user['userid'] == userid:
          return make_response(user, 200)

@@ -44,11 +44,12 @@ paths:
       operationId: get_help
       responses:
         "200":
-          description: full JSON
+          description: full API Doc
           content:
-            application/json:
+            text/html:
               schema:
-                $ref: '#/components/schemas/AllMovies'
+                type: string
+                example: "This is an incomplete Doc"
   /json:
     get:
       tags:
@@ -61,9 +62,25 @@ paths:
         "200":
           description: full JSON
           content:
-            application/json:
+            application/string:
               schema:
                 $ref: '#/components/schemas/AllMovies'
+  /template:
+    get:
+      tags:
+      - developers
+      summary: Send the HTML template 
+      description: |
+        Nothing to do
+      operationId: template
+      responses:
+        "200":
+          description: template message
+          content:
+            text/html:
+              schema:
+                type: string
+                example: This is my HTML template for Movie service
   /movies/{movieid}:
     get:
       tags:
@@ -137,23 +154,22 @@ paths:
           description: item deleted
         "400":
           description: ID not found
-  /movies/{movietitle}:
+  /movies/title:
     get:
       tags:
       - developers
       summary: get the movie by its title
       description: |
-        By passing in the appropriate options, you can get Movie info
+        By passing in the title of a movie, you can get the related Movie info
       operationId: get_movie_bytitle
-      parameters:
-      - name: title
-        in: query
-        description: pass a title
+      requestBody:
+        description: "The body, which is the title of the movie"
         required: true
-        style: form
-        explode: true
-        schema:
-          type: string
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: The Good Dinosaur
       responses:
         "200":
           description: Movie item
@@ -163,56 +179,54 @@ paths:
                 $ref: '#/components/schemas/MovieItem'
         "400":
           description: bad input parameter
-  /movies/{movierating}:
+  /movies/rating:
     get:
       tags:
       - developers
       summary: get the movie by its rating
       description: |
-        By passing in the appropriate options, you can get Movie info
+        By passing in a rate, you can get all the Movies info having this rate
       operationId: get_movie_byrating
-      parameters:
-      - name: rating
-        in: query
-        description: pass a rating
+      requestBody:
+        description: "The body, which is the rate"
         required: true
-        style: form
-        explode: true
-        schema:
-          type: number
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: 7.4
       responses:
         "200":
           description: Movie item
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MovieItem'
+                $ref: '#/components/schemas/AllMovies'
         "400":
           description: bad input parameter
-  /movies/{moviedirector}:
+  /movies/director:
     get:
       tags:
       - developers
       summary: get the movie by its director
       description: |
-        By passing in the appropriate options, you can get Movie info
+        By passing in a director name, you can get all the Movies info directed by him
       operationId: get_movie_bydirector
-      parameters:
-      - name: director
-        in: query
-        description: pass a director
+      requestBody:
+        description: "The body, which is the director"
         required: true
-        style: form
-        explode: true
-        schema:
-          type: string
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: Peter Sohn
       responses:
         "200":
           description: Movie item
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MovieItem'
+                $ref: '#/components/schemas/AllMovies'
         "400":
           description: bad input parameter
   /movies/{movieid}/{rate}:
@@ -246,22 +260,6 @@ paths:
           description: rate updated
         "400":
           description: movie ID not found
-  /template:
-    get:
-      tags:
-      - developers
-      summary: Send the HTML template 
-      description: |
-        Nothing to do
-      operationId: template
-      responses:
-        "200":
-          description: template message
-          content:
-            text/html:
-              schema:
-                type: string
-                example: This is my HTML template for Movie service
 components:
   schemas:
     AllMovies:

@@ -26,28 +26,31 @@ def get_bookings_for_user(userid):
          return make_response(user, 200)
    return make_response("User not found", 400)
 
+def getObjFromListAttr(list, attr, val):
+   for l in list:
+      if l[attr] == val:
+         return l
+   return None
+
 @app.route("/bookings/<userid>", methods=['POST'])
 def add_booking_byuser(userid):
    req = request.get_json()
    plannedMovies = requests.get("http://127.0.0.1:3202/showmovies/" + req['date']).json()['movies']
-   for pMovie in plannedMovies:
-      if pMovie == req['movie']:
-         for booking in bookings:
-            if booking['userid'] == userid:
-               for date in booking['dates']:
-                  if date['date'] == req['date']:
-                     for movie in date['movies']:
-                        if movie == req['movie']:
-                           return make_response("Movie already booked on this day", 409)
-                     date['movies'].append(req['movie'])
-                     write(bookings)
-                     return make_response(jsonify(booking), 200)
-               booking['dates'].append({  "date": req['date'],
-                                          "movies": [req['movie']]
-                                       })
-               write(bookings)
-               return make_response(jsonify(booking), 200)
-   return make_response("Movie not planned on this date", 409)
+   if not req['movie'] in plannedMovies:
+      return make_response("Movie not planned on this date", 409)
+   booking = getObjFromListAttr(bookings, 'userid', userid)
+   date = getObjFromListAttr(booking['dates'], 'date', req['date']) if booking else None
+   if date and req['movie'] in date['movies']:
+      return make_response("Movie already booked on this day", 409)
+   if not booking:
+      booking = {"userid": userid, "dates": []}
+      bookings.append(booking)
+   if not date:
+      date = {  "date": req['date'], "movies": []}
+      booking['dates'].append(date)
+   date['movies'].append(req['movie'])
+   write(bookings)
+   return make_response(jsonify(booking), 200)
 
 def write(bookings):
     with open('{}/databases/bookings.json'.format("."), 'w') as f:

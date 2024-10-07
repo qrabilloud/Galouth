@@ -51,7 +51,7 @@ def get_user_byid(userid : str) -> str:
 def update_user(userid : str) -> str:
    if not isUserExisting(userid) : return make_response("Unexisting user", 400)
    req = request.get_json()
-   if req['id'] != userid and isUserExisting(req['id']): return make_response("Id already used by another user", 400)
+   if req['id'] != userid and isUserExisting(req['id']): return make_response("Id already used by another user", 409)
    for user in users:
       if user['id'] == userid:
          print("Yo")
@@ -101,7 +101,7 @@ def get_detailed_booking_user(userid : str) -> str:
       detailedMovies = []
       for movie in date['movies']:
          reqMovie = requests.get("http://127.0.0.1:3200/movies/" + movie)
-         if reqMovie.status_code != 200 : return make_response("An issue occured when retrieving a movie data : " + reqMovie.content, reqMovie.status_code)
+         if reqMovie.status_code != 200 : return make_response("An issue occured when retrieving a movie data : " + reqMovie.content, 400)
          detailedMovies.append(reqMovie.json())
       date['movies'] = detailedMovies
    return make_response(books, 200)

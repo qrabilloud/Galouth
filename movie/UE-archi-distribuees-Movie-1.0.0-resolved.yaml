@@ -284,8 +284,8 @@ components:
           type: string
           example: The Martian
         rating:
-          type: integer
-          example: 7
+          type: number
+          example: 7.4
         director:
           type: string
           example: Paul McGuigan

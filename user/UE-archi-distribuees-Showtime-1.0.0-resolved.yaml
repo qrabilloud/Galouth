@@ -42,6 +42,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AllUsers'
+    post:
+      tags:
+      - developers
+      summary: post a new user
+      operationId: create_user
+      requestBody:
+        description: user to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "409":
+          description: an existing user already exists
   /users/{userid}:
     get:
       tags:
@@ -66,6 +86,58 @@ paths:
                 $ref: '#/components/schemas/User'
         "400":
           description: bad input parameter
+    put:
+      tags:
+      - developers
+      summary: update an user
+      operationId: update_user
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: new version of the user (id can be modified)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: User modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Unexisting user
+        "409":
+          description: an existing user already exists
+    delete:
+      tags:
+      - developers
+      summary: delete an user
+      operationId: delete_user
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Users deleted (empty if no user deleted)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllUsers'
   /users/name:
     get:
       tags:
@@ -82,11 +154,57 @@ paths:
               example: nrabier
       responses:
         "200":
-          description: A user
+          description: A table with all the user having this name (empty if no user with this name)
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AllUsers'
+  /users/<userid>/bookings:
+    get:
+      tags:
+      - developers
+      summary: get the bookings of the user <userid>
+      operationId: get_booking_user
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: a table of bookings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllBookings"
+        "400":
+          description: Unexisting user or an error occured when retrieving the data of a movie
+  /users/<userid>/bookings/details:
+    get:
+      tags:
+      - developers
+      summary: get the detailed bookings of the user <userid>
+      operationId: get_detailed_booking_user
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: a table of detailed bookings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllBookingsDetailed"
 components:
   schemas:
     AllUsers:
@@ -110,3 +228,68 @@ components:
         name:
           type: string
           example: "Bertrand Lentsch"
+    AllBookings:
+      required:
+      - bookings
+      type: object
+      properties:
+        bookings:
+          type: array
+          items:
+            $ref: "#/components/schemas/booking"
+    booking:
+      required:
+        - date
+        - movies
+      type: object
+      properties:
+        date:
+          type: string
+          example : 20151201
+        movies:
+          type: array
+          items:
+            type: string
+            example: 96798c08-d19b-4986-a05d-7da856efb697
+    AllBookingsDetailed:
+      required:
+      - bookings
+      type: object
+      properties:
+        bookings:
+          type: array
+          items:
+            $ref: "#/components/schemas/booking"
+    bookingDetailed:
+      required:
+        - date
+        - movies
+      type: object
+      properties:
+        date:
+          type: string
+          example : 20151201
+        movies:
+          type: array
+          items:
+            $ref: "#/components/schemas/movieDetailed"
+    movieDetailed:
+      required:
+        - title
+        - rating
+        - director
+        - id
+      type: object
+      properties:
+        title:
+          type: string
+          example: The Good Dinosaur
+        rating:
+          type: number
+          example: 7.4
+        director:
+          type: string
+          example: Peter Sohn
+        id:
+          type: string
+          example: 720d006c-3a57-4b6a-b18f-9b713b073f3c

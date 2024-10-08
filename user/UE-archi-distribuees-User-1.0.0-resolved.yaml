@@ -205,6 +205,60 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AllBookingsDetailed"
+  /users/<userid>/book:
+    post:
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: The body, a json with the movieId and the date
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newBook"
+      responses:
+        "200":
+          description: All the bookings of the user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllBookings"
+        "409":
+          description: Issue with the input data (userid, date and/or movieId)
+  /users/<userid>/bookMovie:
+    post:
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: The body, a json with the title of the movie and the date
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newBookTitle"
+      responses:
+        "200":
+          description: All the bookings of the user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllBookings"
+        "409":
+          description: Issue with the input data (userid, date and/or movieId)
 components:
   schemas:
     AllUsers:
@@ -245,7 +299,7 @@ components:
       properties:
         date:
           type: string
-          example : 20151201
+          example : "20151201"
         movies:
           type: array
           items:
@@ -268,7 +322,7 @@ components:
       properties:
         date:
           type: string
-          example : 20151201
+          example : "20151201"
         movies:
           type: array
           items:
@@ -293,3 +347,27 @@ components:
         id:
           type: string
           example: 720d006c-3a57-4b6a-b18f-9b713b073f3c
+    newBook:
+      required:
+        - movie
+        - date
+      type: object
+      properties:
+        movie:
+          type: string
+          example: 267eedb8-0f5d-42d5-8f43-72426b9fb3e6
+        date:
+          type: string
+          example: "20151201"
+    newBookTitle:
+      required:
+        - movieTitle
+        - date
+      type: object
+      properties:
+        movieTitle:
+          type: string
+          example: The Good Dinausaur
+        date:
+          type: string
+          example: "20151201"

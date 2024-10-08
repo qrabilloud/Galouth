@@ -176,7 +176,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MovieItem'
+                $ref: "#/components/schemas/AllMovies"
         "400":
           description: bad input parameter
   /movies/rating:

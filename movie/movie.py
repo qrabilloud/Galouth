@@ -65,10 +65,11 @@ def del_movie(movieid :str) -> any:
 def get_movie_bytitle() -> str:
     """Searches all the movies in the database with a specific title."""
     title = request.get_data(as_text=True)
+    moviesFound = []
     for movie in movies:
         if movie["title"].lower() == title.lower():
-            return make_response(jsonify(movie), 200)
-    return make_response(jsonify({"error" : "movie title not found"}), 400)
+            moviesFound.append(movie)
+    return make_response(jsonify(moviesFound), 200)
 
 
 @app.route("/movies/rating", methods=['GET'])

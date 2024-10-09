@@ -101,6 +101,35 @@ paths:
                 $ref: '#/components/schemas/BookingsUser'
         "409":
           description: an existing item already exists
+    delete:
+      tags:
+        - developers
+      summary: Delete a booking
+      description: Delete the booking specified in the request body
+      operationId: delete_booking_ofuser
+      parameters:
+      - name: userid
+        in: path
+        description: User ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewMovie"
+      responses:
+        "200":
+          description: Booking created, return all the bookings of the user (None if no bookings left)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingsUser'
+        "409":
+          description: Wrong parameters
 components:
   schemas:
     AllBookings:

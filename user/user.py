@@ -106,26 +106,25 @@ def get_detailed_booking_user(userid : str) -> str:
       date['movies'] = detailedMovies
    return make_response(books, 200)
 
-@app.route("/users/<userid>/book", methods = ['POST'])
-def create_booking_for_user(userid : str) -> str:
-   """Create a new booking for the user userid"""
+@app.route("/users/<userid>/book", methods = ['POST', 'DELETE'])
+def create_or_delete_booking_for_user(userid : str) -> str:
+   """Create or delete a booking for the user userid"""
    req = request.get_json()
    if not isUserExisting(userid) : return make_response("Unexisting user", 409)
-   reqBook = requests.post("http://127.0.0.1:3201/bookings/" + userid, json = req)
+   reqBook = requests.request(request.method ,"http://127.0.0.1:3201/bookings/" + userid, json = req)
    if reqBook.status_code != 200 : return make_response(reqBook.content, 409)
    return make_response(reqBook.content, 200)
 
-@app.route("/users/<userid>/bookMovie", methods = ['POST'])
-def create_booking_for_user_with_title(userid : str) -> str:
-   """Create a new booking for the user userid using the title of the movie"""
+@app.route("/users/<userid>/bookMovie", methods = ['POST', 'DELETE'])
+def create_or_delete_booking_for_user_with_title(userid : str) -> str:
+   """Create or delete a booking for the user userid using the title of the movie"""
    req = request.get_json()
    reqMovie = requests.get("http://127.0.0.1:3200/movies/title", data=req["movieTitle"])
    if reqMovie.status_code != 200 : return make_response(reqMovie.content, 409)
    reqMovieJson = reqMovie.json()
    if len(reqMovieJson) == 0: return make_response("Movie not found", 409)
    jsonReqBook = {"movie" : reqMovieJson[0]["id"], "date" : req["date"]}
-   if not isUserExisting(userid) : return make_response("Unexisting user", 409)
-   reqBook = requests.post("http://127.0.0.1:3201/bookings/" + userid, json = jsonReqBook)
+   reqBook = requests.request(request.method,"http://127.0.0.1:3203/users/" + userid + "/book", json= jsonReqBook)
    if reqBook.status_code != 200 : return make_response(reqBook.content, 409)
    return make_response(reqBook.content, 200)
 

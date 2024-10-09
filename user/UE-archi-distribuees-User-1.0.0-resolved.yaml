@@ -20,6 +20,7 @@ paths:
       tags:
       - developers
       summary: home page of the service
+      description: home page of the service
       operationId: home
       responses:
         "200":
@@ -34,6 +35,7 @@ paths:
       tags:
       - developers
       summary: get the full JSON database
+      description: get the full JSON database of users
       operationId: get_all_users
       responses:
         "200":
@@ -45,7 +47,8 @@ paths:
     post:
       tags:
       - developers
-      summary: post a new user
+      summary: create a new user
+      description: create a new user using the request body
       operationId: create_user
       requestBody:
         description: user to add
@@ -67,6 +70,7 @@ paths:
       tags:
       - developers
       summary: get the user by id
+      description: get the user having id <userid>
       operationId: get_user_byid
       parameters:
       - name: id
@@ -90,6 +94,7 @@ paths:
       tags:
       - developers
       summary: update an user
+      description: update the user userid using the request body
       operationId: update_user
       parameters:
       - name: id
@@ -121,6 +126,7 @@ paths:
       tags:
       - developers
       summary: delete an user
+      description: delete the user with id <userid>
       operationId: delete_user
       parameters:
       - name: id
@@ -142,7 +148,8 @@ paths:
     get:
       tags:
       - developers
-      summary: get the users having the name name
+      summary: get users with name
+      description: get the users having the name name
       operationId: get_users_byname
       requestBody:
         description: The body, which is the username
@@ -163,7 +170,8 @@ paths:
     get:
       tags:
       - developers
-      summary: get the bookings of the user <userid>
+      summary: get user bookings
+      description: get the bookings of the user <userid>
       operationId: get_booking_user
       parameters:
       - name: id
@@ -187,7 +195,8 @@ paths:
     get:
       tags:
       - developers
-      summary: get the detailed bookings of the user <userid>
+      summary: get detailed user bookings
+      description: get the detailed bookings of the user <userid>
       operationId: get_detailed_booking_user
       parameters:
       - name: id
@@ -207,6 +216,42 @@ paths:
                 $ref: "#/components/schemas/AllBookingsDetailed"
   /users/<userid>/book:
     post:
+      tags:
+        - developers
+      summary: Create a booking
+      description: Create a booking for the user userid, using the request body
+      operationId: create_or_delete_booking_for_user
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: The body, a json with the movieId and the date
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newBook"
+      responses:
+        "200":
+          description: All the bookings of the user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllBookings"
+        "409":
+          description: Issue with the input data (userid, date and/or movieId)
+    delete:
+      tags:
+        - developers
+      summary: Delete a booking
+      description: Delete a booking of the user userid, using the request body
+      operationId: create_or_delete_booking_for_user
       parameters:
       - name: id
         in: path
@@ -234,6 +279,42 @@ paths:
           description: Issue with the input data (userid, date and/or movieId)
   /users/<userid>/bookMovie:
     post:
+      tags:
+        - developers
+      summary: Create a booking using title
+      description: Create a booking for the user userid, using the request body, with the title of the movie
+      operationId: create_or_delete_booking_for_user_with_title
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: The body, a json with the title of the movie and the date
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newBookTitle"
+      responses:
+        "200":
+          description: All the bookings of the user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllBookings"
+        "409":
+          description: Issue with the input data (userid, date and/or movieId)
+    delete:
+      tags:
+        - developers
+      summary: Delete a booking using title
+      description: Delete a booking of the user userid, using the request body, with the title of the movie
+      operationId: create_or_delete_booking_for_user_with_title
       parameters:
       - name: id
         in: path

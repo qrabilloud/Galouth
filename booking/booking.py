@@ -53,8 +53,6 @@ def add_booking_byuser(userid):
    return make_response(jsonify(booking), 200)
 
 def removeObjFromListAttr(list, val, attrVal = None):
-   print(list)
-   print(val)
    indexs = []
    i = 0
    for elem in list:

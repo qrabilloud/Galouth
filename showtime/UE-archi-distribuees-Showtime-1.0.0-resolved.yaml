@@ -4,7 +4,7 @@ info:
   title: Showtime API
   description: This is the API of the Showtime service
   contact:
-    email: helene.coullon@imt-atlantique.fr
+    email: nathan.rabier@imt-atlantique.net
   license:
     name: GPL v3
     url: https://www.gnu.org/licenses/gpl-3.0.en.html

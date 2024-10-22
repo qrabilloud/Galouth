@@ -1,4 +1,9 @@
-# TP Rest
+# TP MIXTE
+## Authors :
+- RABIER Nathan
+- RABILLOUD Quentin
+
+## User guide :
 From each folder (booking, movie, showtime and users), launch the corresponding .py.
 List of Port :
 users : 3203

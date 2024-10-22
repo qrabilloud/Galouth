@@ -1,9 +1,7 @@
-# Galouth
-
-Tâches à faire
-- Points d'entrée pour les informations sur les films
-- Point d'entrée help pour avoir des informations
-
-Important :
-- Fixer les adresses pour du non équivoque
-- Terminer les histoires de User
+# TP Rest
+From each folder (booking, movie, showtime and users), launch the corresponding .py.
+List of Port :
+users : 3203
+booking : 3202
+showtime : 3201
+movie : 3200

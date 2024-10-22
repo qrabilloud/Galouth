@@ -12,14 +12,17 @@ with open('{}/databases/times.json'.format("."), "r") as jsf:
 
 @app.route("/", methods=['GET'])
 def home():
+   """Get the welcoming HTLM message of the service"""
    return "<h1 style='color:blue'>Welcome to the Showtime service!</h1>"
 
 @app.route("/showtimes", methods=['GET'])
 def get_schedule():
+   """Get all the schedule"""
    return make_response(jsonify(schedule), 200)
 
 @app.route("/showmovies/<date>", methods=['GET'])
 def get_movies_bydate(date):
+   """Get all the movies planned at the date date"""
    for day in schedule:
       if day['date'] == date:
          return make_response(day,200)

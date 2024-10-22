@@ -12,17 +12,20 @@ with open('{}/databases/users.json'.format("."), "r") as jsf:
    users = json.load(jsf)["users"]
 
 def isUserExisting(userid):
+   """Test if the id userid exist"""
    for user in users:
       if user['id'] == userid:
          return True
    return False
 
 def write(users):
-    with open('{}/databases/users.json'.format("."), 'w') as f:
-        json.dump({"users" : users}, f)
+   """Write users in the database"""
+   with open('{}/databases/users.json'.format("."), 'w') as f:
+      json.dump({"users" : users}, f)
 
 @app.route("/", methods=['GET'])
 def home():
+   """Get the welcoming HTLM message of the service"""
    return "<h1 style='color:blue'>Welcome to the User service!</h1>"
 
 @app.route("/users", methods=['GET'])
@@ -49,12 +52,12 @@ def get_user_byid(userid : str) -> str:
 
 @app.route("/users/<userid>", methods=['PUT'])
 def update_user(userid : str) -> str:
+   """Update the data of the user userid using the body of the HTTP request. We can change the id of the user, in this case userid is the old id, and the id in the body is the new id"""
    if not isUserExisting(userid) : return make_response("Unexisting user", 400)
    req = request.get_json()
    if req['id'] != userid and isUserExisting(req['id']): return make_response("Id already used by another user", 409)
    for user in users:
       if user['id'] == userid:
-         print("Yo")
          user['id'] = req['id']
          user['name'] = req['name']
          user['last_active'] = req['last_active']
@@ -108,7 +111,7 @@ def get_detailed_booking_user(userid : str) -> str:
 
 @app.route("/users/<userid>/book", methods = ['POST', 'DELETE'])
 def create_or_delete_booking_for_user(userid : str) -> str:
-   """Create or delete a booking for the user userid"""
+   """Create or delete a booking for the user userid. We use the incomming method as method to call the booking service"""
    req = request.get_json()
    if not isUserExisting(userid) : return make_response("Unexisting user", 409)
    reqBook = requests.request(request.method ,"http://127.0.0.1:3201/bookings/" + userid, json = req)
@@ -117,7 +120,7 @@ def create_or_delete_booking_for_user(userid : str) -> str:
 
 @app.route("/users/<userid>/bookMovie", methods = ['POST', 'DELETE'])
 def create_or_delete_booking_for_user_with_title(userid : str) -> str:
-   """Create or delete a booking for the user userid using the title of the movie"""
+   """Create or delete a booking for the user userid using the title of the movie. We use the incomming method as method to call the booking service"""
    req = request.get_json()
    reqMovie = requests.get("http://127.0.0.1:3200/movies/title", data=req["movieTitle"])
    if reqMovie.status_code != 200 : return make_response(reqMovie.content, 409)
